@@ -1,0 +1,11 @@
+# Copy this file to terraform.tfvars and fill in your values
+
+# External ID from Aikido Security (obtain from Aikido dashboard)
+external_id = "your-external-id-here"
+
+# Your AWS Organization root or specific OU IDs
+# Find using: aws organizations list-roots
+organizational_unit_ids = ["r-xxxx"]
+
+# Optional: AWS accounts to exclude from Aikido
+excluded_account_ids = []
