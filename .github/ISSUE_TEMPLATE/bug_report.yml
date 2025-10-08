@@ -1,0 +1,132 @@
+name: Bug Report
+description: Report a bug or issue with the Terraform module
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is.
+      placeholder: What went wrong?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: I expected...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: Instead, this happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Configure the module with...
+        2. Run terraform apply...
+        3. See error...
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Terraform Configuration
+      description: Please provide relevant Terraform configuration (remove sensitive data)
+      render: hcl
+      placeholder: |
+        module "aikido_security" {
+          source = "..."
+          # configuration here
+        }
+
+  - type: textarea
+    id: error
+    attributes:
+      label: Error Output
+      description: Please copy and paste any relevant error output
+      render: shell
+      placeholder: Paste error output here
+
+  - type: input
+    id: module-version
+    attributes:
+      label: Module Version
+      description: What version of this module are you using?
+      placeholder: v1.0.0
+    validations:
+      required: true
+
+  - type: input
+    id: terraform-version
+    attributes:
+      label: Terraform Version
+      description: What version of Terraform are you using?
+      placeholder: 1.5.0
+    validations:
+      required: true
+
+  - type: input
+    id: aws-provider-version
+    attributes:
+      label: AWS Provider Version
+      description: What version of the AWS provider are you using?
+      placeholder: 5.0.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: aws-region
+    attributes:
+      label: AWS Region
+      description: Which AWS region are you deploying to?
+      options:
+        - us-east-1
+        - us-east-2
+        - us-west-1
+        - us-west-2
+        - eu-west-1
+        - eu-central-1
+        - ap-southeast-1
+        - ap-southeast-2
+        - ap-northeast-1
+        - Other (specify in description)
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here
+      placeholder: Any other relevant information...
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I have read and agree to the project's Code of Conduct
+          required: true
