@@ -57,21 +57,21 @@ See the [examples](./examples/) directory for complete usage examples.
 
 ## Variables
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|----------|
-| external_id | External ID for Aikido Security role assumption (obtain from Aikido) | `string` | n/a | yes |
-| organizational_unit_ids | The root ID (e.g., r-abcd) or specific OUs (e.g., ou-abcd-1234) | `list(string)` | n/a | yes |
-| excluded_account_ids | AWS accounts that will not be connected to Aikido | `list(string)` | n/a | yes |
-| enable_ecr_scanning | Enable ECR container scanning | `bool` | `false` | no |
-| enable_ebs_scanning | Enable EBS volume scanning | `bool` | `false` | no |
+| Name                    | Description                                                          | Type           | Default | Required |
+| ----------------------- | -------------------------------------------------------------------- | -------------- | ------- | -------- |
+| external_id             | External ID for Aikido Security role assumption (obtain from Aikido) | `string`       | n/a     | yes      |
+| organizational_unit_ids | The root ID (e.g., r-abcd) or specific OUs (e.g., ou-abcd-1234)      | `list(string)` | n/a     | yes      |
+| excluded_account_ids    | AWS accounts that will not be connected to Aikido                    | `list(string)` | n/a     | yes      |
+| enable_ecr_scanning     | Enable ECR container scanning                                        | `bool`         | `false` | no       |
+| enable_ebs_scanning     | Enable EBS volume scanning                                           | `bool`         | `false` | no       |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| cspm_role_arn | ARN of the Aikido CSPM role |
-| ecr_scan_role_arn | ARN of the Aikido ECR scanning role (if enabled) |
-| ebs_scan_role_arn | ARN of the Aikido EBS scanning role (if enabled) |
+| Name          | Description                                      |
+| ------------- | ------------------------------------------------ |
+| cspm_role_arn | ARN of the Aikido CSPM role                      |
+| ecr_role_arn  | ARN of the Aikido ECR scanning role (if enabled) |
+| ebs_role_arn  | ARN of the Aikido EBS scanning role (if enabled) |
 
 ## Resources Created
 
@@ -102,11 +102,13 @@ All role assumptions require the External ID you provide, adding an additional l
 ## Setup Instructions
 
 1. **Get your External ID from Aikido Security**
+
    - Log in to your Aikido Security account
    - Navigate to the AWS integration setup
    - Copy your External ID
 
 2. **Identify your Organization structure**
+
    - Find your Organization Root ID or specific OU IDs
    - Run: `aws organizations list-roots` and `aws organizations list-organizational-units-for-parent`
 
@@ -139,20 +141,4 @@ This module is licensed under the MIT License - see the [LICENSE](LICENSE) file 
 For issues with:
 
 - This Terraform module: Open an issue in this repository
-- Aikido Security integration: Contact [Aikido Support](https://www.aikido.dev/support)
-
-<!-- BEGIN_TF_DOCS -->
-
-
-## Resources
-
-No resources.
-
-## Inputs
-
-No inputs.
-
-## Outputs
-
-No outputs.
-<!-- END_TF_DOCS -->
+- Aikido Security integration: Contact [Aikido Support](https://www.aikido.dev/contact)

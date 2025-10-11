@@ -23,6 +23,7 @@ module "aikido_security" {
 **Note:** The `//source` in the path points to the `source` directory where the Terraform module files are located.
 
 **Advantages:**
+
 - Pin to specific versions using `?ref=v1.0.0`
 - Easy to update by changing the version tag
 - Direct from source, always authentic
@@ -71,6 +72,7 @@ module "aikido_security" {
 ```
 
 **Advantages:**
+
 - Works in air-gapped environments
 - Can be hosted on internal systems
 - Similar pattern to other security vendors (e.g., Wiz)
@@ -113,6 +115,7 @@ module "aikido_security" {
    ## [1.0.0] - 2025-01-15
 
    ### Added
+
    - Initial public release
    - CSPM role and policy
    - Optional ECR scanning
@@ -128,6 +131,7 @@ module "aikido_security" {
    ```
 
 4. **GitHub Actions will automatically:**
+
    - Validate the Terraform code
    - Generate a changelog
    - Create a GitHub release
@@ -144,11 +148,13 @@ module "aikido_security" {
 Follow [Semantic Versioning](https://semver.org/):
 
 - **MAJOR** (v1.0.0 → v2.0.0): Breaking changes
+
   - Changed variable names
   - Removed outputs
   - Changed resource names (forces recreation)
 
 - **MINOR** (v1.0.0 → v1.1.0): New features, backwards compatible
+
   - New optional variables
   - New outputs
   - New optional features
@@ -214,17 +220,20 @@ If you want to host releases on S3 (like Wiz does):
 To publish to the official Terraform Registry:
 
 1. **Repository requirements:**
+
    - Public GitHub repository
    - Repository name: `terraform-aws-<module-name>` (e.g., `terraform-aws-aikido-integration`)
    - Tagged releases (we already have this)
    - Standard module structure (we have this)
 
 2. **Sign in to Terraform Registry:**
+
    - Go to https://registry.terraform.io/
    - Sign in with GitHub
    - Authorize Terraform Registry
 
 3. **Publish module:**
+
    - Click "Publish" → "Module"
    - Select the repository
    - Confirm
@@ -316,5 +325,5 @@ rm -rf .terraform test.tf
 ## Support
 
 - **Module issues:** Open an issue in this repository
-- **Aikido platform:** Contact Aikido Support at https://www.aikido.dev/support
+- **Aikido platform:** Contact Aikido Support at https://www.aikido.dev/contact
 - **Security vulnerabilities:** See [SECURITY.md](SECURITY.md)

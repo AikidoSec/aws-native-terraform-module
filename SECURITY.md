@@ -67,6 +67,6 @@ Ensure you keep your Terraform and AWS provider versions up to date for security
 
 ## Additional Resources
 
-- [Aikido Security Documentation](https://docs.aikido.dev/)
+- [Aikido Security Documentation](https://help.aikido.dev/)
 - [AWS IAM Best Practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 - [Terraform Security Best Practices](https://developer.hashicorp.com/terraform/tutorials/configuration-language/sensitive-variables)

@@ -1,10 +1,10 @@
 blank_issues_enabled: false
 contact_links:
   - name: Aikido Security Support
-    url: https://www.aikido.dev/support
+    url: https://www.aikido.dev/contact
     about: For questions about Aikido Security platform or integration issues
   - name: Documentation
-    url: https://docs.aikido.dev/
+    url: https://help.aikido.dev/
     about: Check the Aikido documentation for guides and tutorials
   - name: Security Vulnerability
     url: https://github.com/AikidoSec/aws-native-terraform-module/security/advisories/new
