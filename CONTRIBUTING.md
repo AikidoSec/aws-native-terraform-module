@@ -48,7 +48,7 @@ git clone https://github.com/your-username/aws-native-terraform-module.git
 cd aws-native-terraform-module
 
 # Install development dependencies
-brew install terraform tflint pre-commit terraform-docs
+brew install terraform tflint pre-commit
 
 # Set up pre-commit hooks
 pre-commit install
@@ -112,6 +112,7 @@ Follow conventional commits format:
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -121,6 +122,7 @@ Follow conventional commits format:
 - `chore`: Maintenance tasks
 
 **Examples:**
+
 ```
 feat(ecr): add support for ECR private registries
 

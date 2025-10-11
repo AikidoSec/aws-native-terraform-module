@@ -140,3 +140,19 @@ For issues with:
 
 - This Terraform module: Open an issue in this repository
 - Aikido Security integration: Contact [Aikido Support](https://www.aikido.dev/support)
+
+<!-- BEGIN_TF_DOCS -->
+
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->
