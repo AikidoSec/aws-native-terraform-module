@@ -88,13 +88,3 @@ jobs:
 
       - name: Run TFLint
         run: tflint --format compact --recursive
-
-  docs:
-    name: Generate Documentation
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}

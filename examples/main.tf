@@ -1,5 +1,6 @@
 module "aikido_security" {
-  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=v1.0.0"
+  # Use "github.com/AikidoSec/aws-native-terraform-module//source?ref=v1.0.0" instead
+  source = "../source"
 
   # External ID provided by Aikido Security
   # You can obtain this from your Aikido dashboard when setting up AWS integration
