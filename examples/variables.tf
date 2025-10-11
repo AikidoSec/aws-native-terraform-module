@@ -2,7 +2,7 @@ variable "external_id" {
   description = "External ID provided by Aikido Security for role assumption"
   type        = string
   # Obtain this from your Aikido Security dashboard
-  # Example: "1234567890abcdef"
+  # Example: "aikido-123456"
 }
 
 variable "organizational_unit_ids" {

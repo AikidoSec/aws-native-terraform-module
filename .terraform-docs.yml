@@ -1,9 +1,6 @@
-formatter: "markdown table"
+formatter: 'markdown table'
 
-version: ""
-
-header-from: ""
-footer-from: ""
+version: ''
 
 recursive:
   enabled: false
@@ -23,7 +20,7 @@ content: |-
   {{ .Outputs }}
 
 output:
-  file: "README.md"
+  file: 'README.md'
   mode: inject
   template: |-
     <!-- BEGIN_TF_DOCS -->
@@ -32,7 +29,7 @@ output:
 
 output-values:
   enabled: false
-  from: ""
+  from: ''
 
 sort:
   enabled: true

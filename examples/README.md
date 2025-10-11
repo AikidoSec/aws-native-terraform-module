@@ -76,3 +76,30 @@ terraform destroy
 ```
 
 Note: You may need to manually delete stack instances from the StackSet if they don't delete automatically.
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+README.md updated successfully
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+<!-- BEGIN_TF_DOCS -->
+
+
+## Resources
+
+No resources.
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_excluded_account_ids"></a> [excluded\_account\_ids](#input\_excluded\_account\_ids) | List of AWS account IDs to exclude from Aikido integration | `list(string)` | `[]` | no |
+| <a name="input_external_id"></a> [external\_id](#input\_external\_id) | External ID provided by Aikido Security for role assumption | `string` | n/a | yes |
+| <a name="input_organizational_unit_ids"></a> [organizational\_unit\_ids](#input\_organizational\_unit\_ids) | List of organization root or OU IDs to deploy to | `list(string)` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_cspm_role_arn"></a> [cspm\_role\_arn](#output\_cspm\_role\_arn) | ARN of the Aikido CSPM role - provide this to Aikido |
+| <a name="output_ebs_role_arn"></a> [ebs\_role\_arn](#output\_ebs\_role\_arn) | ARN of the Aikido EBS scanning role - provide this to Aikido |
+| <a name="output_ecr_role_arn"></a> [ecr\_role\_arn](#output\_ecr\_role\_arn) | ARN of the Aikido ECR scanning role - provide this to Aikido |
+<!-- END_TF_DOCS -->

@@ -227,5 +227,3 @@ resource "aws_cloudformation_stack_set_instance" "member_accounts" {
   # Ensure stack set is ready before deploying instances
   depends_on = [aws_cloudformation_stack_set.member_accounts]
 }
-
-data "aws_region" "current" {}

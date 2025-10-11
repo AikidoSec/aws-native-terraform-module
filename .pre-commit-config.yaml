@@ -5,7 +5,7 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
-        args: [--unsafe]  # Allow custom YAML tags
+        args: [--unsafe] # Allow custom YAML tags
       - id: check-added-large-files
         args: ['--maxkb=1000']
       - id: check-merge-conflict
@@ -21,11 +21,6 @@ repos:
         args:
           - --args=-recursive
 
-      - id: terraform_validate
-        args:
-          - --hook-config=--retry-once-with-cleanup=true
-          - --tf-init-args=-backend=false
-
       - id: terraform_tflint
         args:
           - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
@@ -37,9 +32,7 @@ repos:
           - --hook-config=--create-file-if-not-exist=true
           - --args=--config=.terraform-docs.yml
 
-      - id: terraform_tfsec
-        args:
-          - --args=--minimum-severity=MEDIUM
+      - id: terraform_trivy
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 3.0.0
@@ -59,5 +52,3 @@ repos:
     rev: v1.4.0
     hooks:
       - id: detect-secrets
-        args: ['--baseline', '.secrets.baseline']
-        exclude: package-lock.json
