@@ -31,7 +31,7 @@ resource "aws_iam_role" "aikido_security_cspm" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = "arn:aws:iam::881830977366:role/service-role/lambda-aws-cloud-findings-role-uox26vzd"
+          AWS = var.aikido_cspm_scanner_role_arn
         }
         Action = "sts:AssumeRole"
         Condition = {
@@ -91,7 +91,7 @@ resource "aws_iam_role" "aikido_security_ecr_scan" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = "arn:aws:iam::881830977366:role/service-role/lambda-container-image-scanner-role-pb0qotst"
+          AWS = var.aikido_ecr_scanner_role_arn
         }
         Action = "sts:AssumeRole"
         Condition = {
@@ -159,7 +159,7 @@ resource "aws_iam_role" "aikido_security_ebs_scan" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = "arn:aws:iam::881830977366:role/aws-ebs-scanner-role"
+          AWS = var.aikido_ebs_scanner_role_arn
         }
         Action = "sts:AssumeRole"
         Condition = {
@@ -188,9 +188,9 @@ resource "aws_cloudformation_stack_set" "member_accounts" {
   capabilities     = ["CAPABILITY_NAMED_IAM"]
 
   parameters = {
-    ExternalId         = var.external_id
-    EnableEcrScanning  = var.enable_ecr_scanning ? "true" : "false"
-    EnableEbsScanning  = var.enable_ebs_scanning ? "true" : "false"
+    ExternalId        = var.external_id
+    EnableEcrScanning = var.enable_ecr_scanning ? "true" : "false"
+    EnableEbsScanning = var.enable_ebs_scanning ? "true" : "false"
   }
 
   auto_deployment {
@@ -214,9 +214,9 @@ resource "aws_cloudformation_stack_set_instance" "member_accounts" {
 
   deployment_targets {
     organizational_unit_ids = var.organizational_unit_ids
-    account_filter_type     = "INTERSECTION"
+    account_filter_type     = length(var.excluded_account_ids) > 0 ? "DIFFERENCE" : "NONE"
     accounts_url            = null
-    accounts                = null
+    accounts                = length(var.excluded_account_ids) > 0 ? var.excluded_account_ids : null
   }
 
   operation_preferences {

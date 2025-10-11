@@ -3,12 +3,12 @@ output "cspm_role_arn" {
   value       = aws_iam_role.aikido_security_cspm.arn
 }
 
-output "ecr_scan_role_arn" {
+output "ecr_role_arn" {
   description = "ARN of the Aikido ECR scanning role (if enabled)"
   value       = var.enable_ecr_scanning ? aws_iam_role.aikido_security_ecr_scan[0].arn : null
 }
 
-output "ebs_scan_role_arn" {
+output "ebs_role_arn" {
   description = "ARN of the Aikido EBS scanning role (if enabled)"
   value       = var.enable_ebs_scanning ? aws_iam_role.aikido_security_ebs_scan[0].arn : null
 }
