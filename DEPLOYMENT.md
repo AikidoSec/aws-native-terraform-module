@@ -57,7 +57,7 @@ module "aikido_security" {
 }
 ```
 
-**Direct URL (similar to Wiz):**
+**Direct URL:**
 
 ```hcl
 module "aikido_security" {
@@ -75,24 +75,7 @@ module "aikido_security" {
 
 - Works in air-gapped environments
 - Can be hosted on internal systems
-- Similar pattern to other security vendors (e.g., Wiz)
-
-### Method 3: Terraform Registry (Future)
-
-If published to the Terraform Registry, users can reference it with:
-
-```hcl
-module "aikido_security" {
-  source  = "AikidoSec/aikido-aws-integration/aws"
-  version = "1.0.0"
-
-  external_id             = "your-aikido-external-id"
-  organizational_unit_ids = ["r-xxxx"]
-  excluded_account_ids    = []
-  enable_ecr_scanning     = true
-  enable_ebs_scanning     = true
-}
-```
+- Similar pattern to other security vendors
 
 ---
 
@@ -182,69 +165,6 @@ git push origin v1.1.0-alpha.1
 ```
 
 Pre-releases are automatically marked in GitHub releases.
-
-### Distribution via S3 (Optional - Wiz-style)
-
-If you want to host releases on S3 (like Wiz does):
-
-1. **Create an S3 bucket:**
-
-   ```bash
-   aws s3 mb s3://aikido-terraform-modules
-   aws s3api put-public-access-block --bucket aikido-terraform-modules --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
-   ```
-
-2. **Add to release workflow:**
-
-   ```yaml
-   - name: Upload to S3
-     run: |
-       aws s3 cp aikido-aws-terraform-module-${{ steps.version.outputs.VERSION }}.zip \
-         s3://aikido-terraform-modules/aws-integration/${{ steps.version.outputs.VERSION }}/
-       aws s3api put-object-acl --bucket aikido-terraform-modules \
-         --key aws-integration/${{ steps.version.outputs.VERSION }}/aikido-aws-terraform-module-${{ steps.version.outputs.VERSION }}.zip \
-         --acl public-read
-   ```
-
-3. **Users reference via S3 URL:**
-
-   ```hcl
-   module "aikido_security" {
-     source = "https://aikido-terraform-modules.s3.amazonaws.com/aws-integration/1.0.0/aikido-aws-terraform-module-1.0.0.zip"
-     # ... configuration
-   }
-   ```
-
-### Publishing to Terraform Registry
-
-To publish to the official Terraform Registry:
-
-1. **Repository requirements:**
-
-   - Public GitHub repository
-   - Repository name: `terraform-aws-<module-name>` (e.g., `terraform-aws-aikido-integration`)
-   - Tagged releases (we already have this)
-   - Standard module structure (we have this)
-
-2. **Sign in to Terraform Registry:**
-
-   - Go to https://registry.terraform.io/
-   - Sign in with GitHub
-   - Authorize Terraform Registry
-
-3. **Publish module:**
-
-   - Click "Publish" → "Module"
-   - Select the repository
-   - Confirm
-
-4. **Module will be available as:**
-   ```hcl
-   module "aikido_security" {
-     source  = "AikidoSec/aikido-integration/aws"
-     version = "1.0.0"
-   }
-   ```
 
 ---
 
