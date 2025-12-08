@@ -42,18 +42,6 @@ Use the `modules/iam-roles` submodule for individual AWS accounts without Organi
 
 See the [IAM Roles Module Documentation](modules/iam-roles/README.md) for details on using the submodule.
 
-## Upgrading from v1.0.0 to v2.0.0
-
-⚠️ **Important**: Version 2.0.0 includes internal refactoring that requires state migration. The migration is automated using `moved` blocks.
-
-**Quick upgrade steps:**
-1. Update your module source to `ref=v2.0.0`
-2. Run `terraform init -upgrade`
-3. Run `terraform plan` (you'll see resources being moved)
-4. Run `terraform apply`
-
-See the [Migration Guide](MIGRATION.md) for detailed instructions and troubleshooting.
-
 ## Usage
 
 ```hcl
@@ -111,6 +99,18 @@ See the [examples](./examples/) directory for complete usage examples.
 | cspm_role_arn | ARN of the Aikido CSPM role                      |
 | ecr_role_arn  | ARN of the Aikido ECR scanning role (if enabled) |
 | ebs_role_arn  | ARN of the Aikido EBS scanning role (if enabled) |
+
+## Upgrading from v1.0.0 to v2.0.0
+
+⚠️ **Important**: Version 2.0.0 includes internal refactoring that requires state migration. The migration is automated using `moved` blocks.
+
+**Quick upgrade steps:**
+1. Update your module source to `ref=v2.0.0`
+2. Run `terraform init -upgrade`
+3. Run `terraform plan` (you'll see resources being moved)
+4. Run `terraform apply`
+
+See the [Migration Guide](MIGRATION.md) for detailed instructions and troubleshooting.
 
 ## Resources Created
 
