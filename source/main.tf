@@ -96,6 +96,10 @@ resource "aws_cloudformation_stack_set" "member_accounts" {
     failure_tolerance_percentage = 100
     max_concurrent_percentage    = 100
   }
+
+  lifecycle {
+    ignore_changes = [administration_role_arn]
+  }
 }
 
 # Deploy stack set instances to organizational units
