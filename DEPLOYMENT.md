@@ -10,7 +10,7 @@ This is the recommended approach for most users as it allows version pinning and
 
 ```hcl
 module "aikido_security" {
-  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=v1.0.0"
+  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=v2.0.0"
 
   external_id             = "your-aikido-external-id"
   organizational_unit_ids = ["r-xxxx"]
@@ -24,7 +24,7 @@ module "aikido_security" {
 
 **Advantages:**
 
-- Pin to specific versions using `?ref=v1.0.0`
+- Pin to specific versions using `?ref=v2.0.0`
 - Easy to update by changing the version tag
 - Direct from source, always authentic
 - No manual downloads required
@@ -37,17 +37,17 @@ Download a specific release and use it locally or from a URL.
 
 ```bash
 # Download the release
-curl -LO https://github.com/AikidoSec/aws-native-terraform-module/releases/download/v1.0.0/aikido-aws-terraform-module-1.0.0.zip
+curl -LO https://github.com/AikidoSec/aws-native-terraform-module/releases/download/v2.0.0/aikido-aws-terraform-module-2.0.0.zip
 
 # Extract
-unzip aikido-aws-terraform-module-1.0.0.zip -d terraform-modules/
+unzip aikido-aws-terraform-module-2.0.0.zip -d terraform-modules/
 
 # Use in your Terraform configuration
 ```
 
 ```hcl
 module "aikido_security" {
-  source = "./terraform-modules/aikido-aws-terraform-module-1.0.0/source"
+  source = "./terraform-modules/aikido-aws-terraform-module-2.0.0/source"
 
   external_id             = "your-aikido-external-id"
   organizational_unit_ids = ["r-xxxx"]
@@ -61,7 +61,7 @@ module "aikido_security" {
 
 ```hcl
 module "aikido_security" {
-  source = "https://github.com/AikidoSec/aws-native-terraform-module/releases/download/v1.0.0/aikido-aws-terraform-module-1.0.0.zip//source"
+  source = "https://github.com/AikidoSec/aws-native-terraform-module/releases/download/v2.0.0/aikido-aws-terraform-module-2.0.0.zip//source"
 
   external_id             = "your-aikido-external-id"
   organizational_unit_ids = ["r-xxxx"]

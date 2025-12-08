@@ -1,0 +1,8 @@
+# Example terraform.tfvars file
+# Copy this to terraform.tfvars and update with your values
+
+external_id = "your-external-id-from-aikido-dashboard"
+
+# Optional: Enable additional scanning
+enable_ecr_scanning = true
+enable_ebs_scanning = true

@@ -1,181 +1,71 @@
 # Aikido Security Integration for AWS Organizations
 
-# CSPM Resources
-resource "aws_iam_policy" "aikido_security_audit" {
-  name        = "AikidoSecurityAuditPolicy"
-  description = "Aikido Security Audit Policy"
+# IAM roles for management account
+module "iam_roles" {
+  source = "../modules/iam-roles"
 
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "backup:ListBackupPlans",
-          "backup:GetBackupPlan",
-          "backup:ListProtectedResources",
-          "budgets:ViewBudget"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
+  external_id                  = var.external_id
+  enable_ecr_scanning          = var.enable_ecr_scanning
+  enable_ebs_scanning          = var.enable_ebs_scanning
+  aikido_cspm_scanner_role_arn = var.aikido_cspm_scanner_role_arn
+  aikido_ecr_scanner_role_arn  = var.aikido_ecr_scanner_role_arn
+  aikido_ebs_scanner_role_arn  = var.aikido_ebs_scanner_role_arn
 }
 
-resource "aws_iam_role" "aikido_security_cspm" {
-  name = "AikidoSecurityReadonlyRole"
+# State migration blocks for v1.0.0 -> v2.0.0 upgrade
+# These automatically move resources from the old flat structure to the new module structure
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          AWS = var.aikido_cspm_scanner_role_arn
-        }
-        Action = "sts:AssumeRole"
-        Condition = {
-          StringEquals = {
-            "sts:ExternalId" = var.external_id
-          }
-        }
-      }
-    ]
-  })
+# CSPM resources
+moved {
+  from = aws_iam_policy.aikido_security_audit
+  to   = module.iam_roles.aws_iam_policy.aikido_security_audit
 }
 
-resource "aws_iam_role_policy_attachment" "aikido_security_audit_aws" {
-  role       = aws_iam_role.aikido_security_cspm.name
-  policy_arn = "arn:aws:iam::aws:policy/SecurityAudit"
+moved {
+  from = aws_iam_role.aikido_security_cspm
+  to   = module.iam_roles.aws_iam_role.aikido_security_cspm
 }
 
-resource "aws_iam_role_policy_attachment" "aikido_security_audit_custom" {
-  role       = aws_iam_role.aikido_security_cspm.name
-  policy_arn = aws_iam_policy.aikido_security_audit.arn
+moved {
+  from = aws_iam_role_policy_attachment.aikido_security_audit_aws
+  to   = module.iam_roles.aws_iam_role_policy_attachment.aikido_security_audit_aws
 }
 
-# ECR Scanning Resources
-resource "aws_iam_policy" "aikido_security_ecr_scan" {
-  count       = var.enable_ecr_scanning ? 1 : 0
-  name        = "AikidoSecurityEcrScanPolicy"
-  description = "Aikido Security ECR Scan Policy"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:BatchGetImage",
-          "ecr:DescribeImages",
-          "ecr:DescribeRegistry",
-          "ecr:DescribeRepositories",
-          "ecr:GetAuthorizationToken",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:ListImages"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
+moved {
+  from = aws_iam_role_policy_attachment.aikido_security_audit_custom
+  to   = module.iam_roles.aws_iam_role_policy_attachment.aikido_security_audit_custom
 }
 
-resource "aws_iam_role" "aikido_security_ecr_scan" {
-  count = var.enable_ecr_scanning ? 1 : 0
-  name  = "AikidoSecurityEcrScanningRole"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          AWS = var.aikido_ecr_scanner_role_arn
-        }
-        Action = "sts:AssumeRole"
-        Condition = {
-          StringEquals = {
-            "sts:ExternalId" = var.external_id
-          }
-        }
-      }
-    ]
-  })
+# ECR scanning resources
+moved {
+  from = aws_iam_policy.aikido_security_ecr_scan
+  to   = module.iam_roles.aws_iam_policy.aikido_security_ecr_scan
 }
 
-resource "aws_iam_role_policy_attachment" "aikido_security_ecr_scan" {
-  count      = var.enable_ecr_scanning ? 1 : 0
-  role       = aws_iam_role.aikido_security_ecr_scan[0].name
-  policy_arn = aws_iam_policy.aikido_security_ecr_scan[0].arn
+moved {
+  from = aws_iam_role.aikido_security_ecr_scan
+  to   = module.iam_roles.aws_iam_role.aikido_security_ecr_scan
 }
 
-# EBS Scanning Resources
-resource "aws_iam_policy" "aikido_security_ebs_scan" {
-  count       = var.enable_ebs_scanning ? 1 : 0
-  name        = "AikidoSecurityEbsScanPolicy"
-  description = "Aikido Security EBS Scan Policy"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ec2:DescribeInstances",
-          "ec2:DescribeVolumes",
-          "ec2:DescribeVolumeStatus",
-          "ec2:DescribeSnapshots",
-          "ec2:CreateSnapshot",
-          "ec2:CreateTags",
-          "ebs:ListSnapshotBlocks",
-          "ebs:GetSnapshotBlock",
-          "kms:Decrypt",
-          "kms:GenerateDataKey"
-        ]
-        Resource = "*"
-      },
-      {
-        Effect   = "Allow"
-        Action   = ["ec2:DeleteSnapshot"]
-        Resource = "*"
-        Condition = {
-          StringEquals = {
-            "aws:ResourceTag/aikido_snapshot" = "true"
-          }
-        }
-      }
-    ]
-  })
+moved {
+  from = aws_iam_role_policy_attachment.aikido_security_ecr_scan
+  to   = module.iam_roles.aws_iam_role_policy_attachment.aikido_security_ecr_scan
 }
 
-resource "aws_iam_role" "aikido_security_ebs_scan" {
-  count = var.enable_ebs_scanning ? 1 : 0
-  name  = "AikidoSecurityEbsScanningRole"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          AWS = var.aikido_ebs_scanner_role_arn
-        }
-        Action = "sts:AssumeRole"
-        Condition = {
-          StringEquals = {
-            "sts:ExternalId" = var.external_id
-          }
-        }
-      }
-    ]
-  })
+# EBS scanning resources
+moved {
+  from = aws_iam_policy.aikido_security_ebs_scan
+  to   = module.iam_roles.aws_iam_policy.aikido_security_ebs_scan
 }
 
-resource "aws_iam_role_policy_attachment" "aikido_security_ebs_scan" {
-  count      = var.enable_ebs_scanning ? 1 : 0
-  role       = aws_iam_role.aikido_security_ebs_scan[0].name
-  policy_arn = aws_iam_policy.aikido_security_ebs_scan[0].arn
+moved {
+  from = aws_iam_role.aikido_security_ebs_scan
+  to   = module.iam_roles.aws_iam_role.aikido_security_ebs_scan
+}
+
+moved {
+  from = aws_iam_role_policy_attachment.aikido_security_ebs_scan
+  to   = module.iam_roles.aws_iam_role_policy_attachment.aikido_security_ebs_scan
 }
 
 # Member accounts stack set
