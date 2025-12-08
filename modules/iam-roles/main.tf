@@ -9,23 +9,47 @@ resource "aws_iam_policy" "aikido_security_audit" {
 
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [
+    Statement = concat([
       {
         Effect = "Allow"
         Action = [
-          "backup:ListBackupPlans",
           "backup:GetBackupPlan",
+          "backup:ListBackupPlans",
           "backup:ListProtectedResources",
           "budgets:ViewBudget"
         ]
         Resource = "*"
       }
-    ]
+      ],
+      var.enable_comprehensive_permissions ? [
+        {
+          Effect = "Allow"
+          Action = [
+            "batch:DescribeJobQueues",
+            "batch:DescribeJobs",
+            "batch:ListJobs",
+            "ec2:GetEbsEncryptionByDefault",
+            "ec2:GetLaunchTemplateData",
+            "ec2:GetSnapshotBlockPublicAccessState",
+            "eks:DescribeAddon",
+            "eks:DescribeAddonConfiguration",
+            "eks:DescribeIdentityProviderConfig",
+            "eks:DescribeNodegroup",
+            "eks:DescribePodIdentityAssociation",
+            "lambda:GetFunction",
+            "lambda:GetFunctionUrlConfig",
+            "scheduler:GetSchedule",
+            "scheduler:ListSchedules"
+          ]
+          Resource = "*"
+        }
+      ] : []
+    )
   })
 }
 
 resource "aws_iam_role" "aikido_security_cspm" {
-  name = "AikidoSecurityReadonlyRole"
+  name = var.cspm_role_name
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -85,7 +109,7 @@ resource "aws_iam_policy" "aikido_security_ecr_scan" {
 
 resource "aws_iam_role" "aikido_security_ecr_scan" {
   count = var.enable_ecr_scanning ? 1 : 0
-  name  = "AikidoSecurityEcrScanningRole"
+  name  = var.ecr_role_name
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -153,7 +177,7 @@ resource "aws_iam_policy" "aikido_security_ebs_scan" {
 
 resource "aws_iam_role" "aikido_security_ebs_scan" {
   count = var.enable_ebs_scanning ? 1 : 0
-  name  = "AikidoSecurityEbsScanningRole"
+  name  = var.ebs_role_name
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

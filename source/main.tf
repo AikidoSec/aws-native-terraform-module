@@ -4,12 +4,16 @@
 module "iam_roles" {
   source = "../modules/iam-roles"
 
-  external_id                  = var.external_id
-  enable_ecr_scanning          = var.enable_ecr_scanning
-  enable_ebs_scanning          = var.enable_ebs_scanning
-  aikido_cspm_scanner_role_arn = var.aikido_cspm_scanner_role_arn
-  aikido_ecr_scanner_role_arn  = var.aikido_ecr_scanner_role_arn
-  aikido_ebs_scanner_role_arn  = var.aikido_ebs_scanner_role_arn
+  external_id                      = var.external_id
+  enable_comprehensive_permissions = var.enable_comprehensive_permissions
+  enable_ecr_scanning              = var.enable_ecr_scanning
+  enable_ebs_scanning              = var.enable_ebs_scanning
+  aikido_cspm_scanner_role_arn     = var.aikido_cspm_scanner_role_arn
+  aikido_ecr_scanner_role_arn      = var.aikido_ecr_scanner_role_arn
+  aikido_ebs_scanner_role_arn      = var.aikido_ebs_scanner_role_arn
+  cspm_role_name                   = var.cspm_role_name
+  ecr_role_name                    = var.ecr_role_name
+  ebs_role_name                    = var.ebs_role_name
 }
 
 # State migration blocks for v1.0.0 -> v2.0.0 upgrade

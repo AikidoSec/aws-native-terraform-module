@@ -92,13 +92,17 @@ See the [examples](./examples/) directory for complete usage examples.
 
 ## Variables
 
-| Name                    | Description                                                          | Type           | Default | Required |
-| ----------------------- | -------------------------------------------------------------------- | -------------- | ------- | -------- |
-| external_id             | External ID for Aikido Security role assumption (obtain from Aikido) | `string`       | n/a     | yes      |
-| organizational_unit_ids | The root ID (e.g., r-abcd) or specific OUs (e.g., ou-abcd-1234)      | `list(string)` | n/a     | yes      |
-| excluded_account_ids    | AWS accounts that will not be connected to Aikido                    | `list(string)` | n/a     | yes      |
-| enable_ecr_scanning     | Enable ECR container scanning                                        | `bool`         | `false` | no       |
-| enable_ebs_scanning     | Enable EBS volume scanning                                           | `bool`         | `false` | no       |
+| Name                             | Description                                                                                                                                                  | Type           | Default | Required |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | ------- | -------- |
+| external_id                      | External ID for Aikido Security role assumption (obtain from Aikido)                                                                                         | `string`       | n/a     | yes      |
+| organizational_unit_ids          | The root ID (e.g., r-abcd) or specific OUs (e.g., ou-abcd-1234)                                                                                              | `list(string)` | n/a     | yes      |
+| excluded_account_ids             | AWS accounts that will not be connected to Aikido                                                                                                            | `list(string)` | n/a     | yes      |
+| enable_comprehensive_permissions | Enable comprehensive CSPM permissions for full security coverage. When disabled, basic permissions are used but Aikido will still attempt additional API calls, resulting in access denied entries in CloudTrail logs. | `bool`         | `false` | no       |
+| enable_ecr_scanning              | Enable ECR container scanning                                                                                                                                | `bool`         | `false` | no       |
+| enable_ebs_scanning              | Enable EBS volume scanning                                                                                                                                   | `bool`         | `false` | no       |
+| cspm_role_name                   | Name of the CSPM IAM role                                                                                                                                    | `string`       | `"AikidoSecurityReadonlyRole"` | no       |
+| ecr_role_name                    | Name of the ECR scanning IAM role                                                                                                                            | `string`       | `"AikidoSecurityEcrScanningRole"` | no       |
+| ebs_role_name                    | Name of the EBS scanning IAM role                                                                                                                            | `string`       | `"AikidoSecurityEbsScanningRole"` | no       |
 
 ## Outputs
 
