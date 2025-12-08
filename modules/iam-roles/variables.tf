@@ -3,19 +3,8 @@ variable "external_id" {
   type        = string
 }
 
-variable "organizational_unit_ids" {
-  description = "The root ID (e.g., r-abcd) or specific OUs (e.g., ou-abcd-1234, ou-abcd-5678)"
-  type        = list(string)
-}
-
-variable "excluded_account_ids" {
-  description = "The AWS accounts that will not be connected to Aikido"
-  type        = list(string)
-  default     = []
-}
-
 variable "enable_comprehensive_permissions" {
-  description = "Enable comprehensive CSPM permissions for full security coverage. When disabled, minimal permissions are used."
+  description = "Enable comprehensive CSPM permissions for full security coverage. When disabled, basic permissions are used but Aikido will still attempt additional API calls, resulting in access denied entries in CloudTrail logs."
   type        = bool
   default     = false
 }

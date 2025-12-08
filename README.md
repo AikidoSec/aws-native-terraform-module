@@ -19,11 +19,46 @@ This Terraform module sets up [Aikido Security](https://www.aikido.dev/) integra
 - You must have the necessary permissions to create IAM roles, policies, and CloudFormation StackSets
 - An Aikido Security account with an External ID (obtain from Aikido Security)
 
+## Module Variants
+
+This repository provides two ways to integrate Aikido with AWS:
+
+### 1. Organization-Wide Integration (Root Module)
+Use the root module (`source/`) for AWS Organizations with automatic deployment to member accounts via StackSets.
+
+**When to use:**
+- You have AWS Organizations enabled
+- You want automatic deployment to all member accounts
+- You can use CloudFormation StackSets
+
+### 2. Single Account Integration (IAM Roles Submodule)
+Use the `modules/iam-roles` submodule for individual AWS accounts without Organizations or StackSets.
+
+**When to use:**
+- You don't have AWS Organizations
+- You cannot use CloudFormation StackSets
+- You want to control deployment to specific accounts manually
+- You're integrating with a single AWS account
+
+See the [IAM Roles Module Documentation](modules/iam-roles/README.md) for details on using the submodule.
+
+## Upgrading from v1.0.0 to v2.0.0
+
+⚠️ **Important**: Version 2.0.0 includes internal refactoring that requires state migration. The migration is automated using `moved` blocks.
+
+**Quick upgrade steps:**
+1. Update your module source to `ref=v2.0.0`
+2. Run `terraform init -upgrade`
+3. Run `terraform plan` (you'll see resources being moved)
+4. Run `terraform apply`
+
+See the [Migration Guide](MIGRATION.md) for detailed instructions and troubleshooting.
+
 ## Usage
 
 ```hcl
 module "aikido_security" {
-  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=v1.0.0"
+  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=v2.0.0"
 
   external_id               = "your-aikido-external-id"
   organizational_unit_ids   = ["r-abcd"]  # Your organization root or specific OUs
@@ -41,7 +76,7 @@ See the [Deployment Guide](DEPLOYMENT.md) for detailed installation instructions
 
 ```hcl
 module "aikido_security" {
-  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=v1.0.0"
+  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=v2.0.0"
 
   external_id             = "your-aikido-external-id"
   organizational_unit_ids = ["r-xxxx"]
@@ -57,13 +92,17 @@ See the [examples](./examples/) directory for complete usage examples.
 
 ## Variables
 
-| Name                    | Description                                                          | Type           | Default | Required |
-| ----------------------- | -------------------------------------------------------------------- | -------------- | ------- | -------- |
-| external_id             | External ID for Aikido Security role assumption (obtain from Aikido) | `string`       | n/a     | yes      |
-| organizational_unit_ids | The root ID (e.g., r-abcd) or specific OUs (e.g., ou-abcd-1234)      | `list(string)` | n/a     | yes      |
-| excluded_account_ids    | AWS accounts that will not be connected to Aikido                    | `list(string)` | n/a     | yes      |
-| enable_ecr_scanning     | Enable ECR container scanning                                        | `bool`         | `false` | no       |
-| enable_ebs_scanning     | Enable EBS volume scanning                                           | `bool`         | `false` | no       |
+| Name                             | Description                                                                                                                                                  | Type           | Default | Required |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | ------- | -------- |
+| external_id                      | External ID for Aikido Security role assumption (obtain from Aikido)                                                                                         | `string`       | n/a     | yes      |
+| organizational_unit_ids          | The root ID (e.g., r-abcd) or specific OUs (e.g., ou-abcd-1234)                                                                                              | `list(string)` | n/a     | yes      |
+| excluded_account_ids             | AWS accounts that will not be connected to Aikido                                                                                                            | `list(string)` | n/a     | yes      |
+| enable_comprehensive_permissions | Enable comprehensive CSPM permissions for full security coverage. When disabled, basic permissions are used but Aikido will still attempt additional API calls, resulting in access denied entries in CloudTrail logs. | `bool`         | `false` | no       |
+| enable_ecr_scanning              | Enable ECR container scanning                                                                                                                                | `bool`         | `false` | no       |
+| enable_ebs_scanning              | Enable EBS volume scanning                                                                                                                                   | `bool`         | `false` | no       |
+| cspm_role_name                   | Name of the CSPM IAM role                                                                                                                                    | `string`       | `"AikidoSecurityReadonlyRole"` | no       |
+| ecr_role_name                    | Name of the ECR scanning IAM role                                                                                                                            | `string`       | `"AikidoSecurityEcrScanningRole"` | no       |
+| ebs_role_name                    | Name of the EBS scanning IAM role                                                                                                                            | `string`       | `"AikidoSecurityEbsScanningRole"` | no       |
 
 ## Outputs
 

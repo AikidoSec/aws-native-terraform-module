@@ -59,7 +59,7 @@ After release, users can reference specific versions:
 
 ```hcl
 module "aikido_security" {
-  source = "github.com/your-org/aws-native-terraform-module?ref=v1.0.0"
+  source = "github.com/your-org/aws-native-terraform-module?ref=v2.0.0"
 
   # ... configuration
 }

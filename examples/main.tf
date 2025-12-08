@@ -1,5 +1,5 @@
 module "aikido_security" {
-  # Use "github.com/AikidoSec/aws-native-terraform-module//source?ref=v1.0.0" instead
+  # Use "github.com/AikidoSec/aws-native-terraform-module//source?ref=v2.0.0" instead
   source = "../source"
 
   # External ID provided by Aikido Security
