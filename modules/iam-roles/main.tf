@@ -156,6 +156,7 @@ resource "aws_iam_policy" "aikido_security_ebs_scan" {
           "ec2:CreateTags",
           "ebs:ListSnapshotBlocks",
           "ebs:GetSnapshotBlock",
+          "kms:DescribeKey",
           "kms:Decrypt",
           "kms:GenerateDataKey"
         ]
