@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2025-12-14
+
+### Fixed
+
+- Fixed IAM policy for EBS scanning to allow `kms:DescribeKey` permission
+
+## [2.0.0] - 2025-12-08
+
 ### Added
 
 - New standalone `modules/iam-roles` submodule for deploying Aikido IAM roles to individual AWS accounts without requiring AWS Organizations or CloudFormation StackSets
