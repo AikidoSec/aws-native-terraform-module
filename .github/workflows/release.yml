@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
         with:
           terraform_version: 1.6.0
 
@@ -32,7 +32,7 @@ jobs:
 
       - name: Generate Changelog
         id: changelog
-        uses: metcalfc/changelog-generator@v4.3.1
+        uses: metcalfc/changelog-generator@d552ecf3366cf9d6da9fd7dbe425325d3d095aa8 # v4.3.1
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
 
@@ -46,7 +46,7 @@ jobs:
           git archive --format=zip --output=aikido-aws-terraform-module-${{ steps.version.outputs.VERSION }}.zip ${{ github.ref_name }}
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
           name: Release ${{ github.ref_name }}
           body: |
