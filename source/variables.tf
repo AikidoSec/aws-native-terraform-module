@@ -15,9 +15,9 @@ variable "excluded_account_ids" {
 }
 
 variable "enable_comprehensive_permissions" {
-  description = "Enable comprehensive CSPM permissions for full security coverage. When disabled, minimal permissions are used."
+  description = "Deprecated: this variable has no effect. Comprehensive permissions are now always enabled."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "enable_ecr_scanning" {
@@ -54,6 +54,33 @@ variable "cspm_role_name" {
   description = "Name of the CSPM IAM role"
   type        = string
   default     = "AikidoSecurityReadonlyRole"
+}
+
+variable "cspm_audit_actions" {
+  description = "IAM actions to allow in the Aikido Security Audit Policy"
+  type        = list(string)
+  default = [
+    "backup:GetBackupPlan",
+    "backup:ListBackupPlans",
+    "backup:ListProtectedResources",
+    "batch:DescribeJobQueues",
+    "budgets:ViewBudget",
+    "ec2:GetEbsEncryptionByDefault",
+    "ec2:GetLaunchTemplateData",
+    "ec2:GetSnapshotBlockPublicAccessState",
+    "eks:DescribeAddon",
+    "eks:DescribeAddonConfiguration",
+    "eks:DescribeIdentityProviderConfig",
+    "eks:DescribeNodegroup",
+    "eks:DescribePodIdentityAssociation",
+    "lambda:GetFunction",
+    "lambda:GetFunctionUrlConfig",
+    "lambda:GetLayerVersion",
+    "scheduler:GetSchedule",
+    "scheduler:ListSchedules",
+    "states:ListTagsForResource",
+    "wafv2:GetRuleGroup",
+  ]
 }
 
 variable "ecr_role_name" {

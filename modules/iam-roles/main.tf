@@ -9,42 +9,18 @@ resource "aws_iam_policy" "aikido_security_audit" {
 
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = concat([
+    Statement = [
       {
         Effect = "Allow"
-        Action = [
-          "backup:GetBackupPlan",
-          "backup:ListBackupPlans",
-          "backup:ListProtectedResources",
-          "budgets:ViewBudget"
-        ]
+        Action   = var.cspm_audit_actions
+        Resource = "*"
+      },
+      {
+        Effect   = "Deny"
+        Action   = ["rds:DownloadDBLogFilePortion"]
         Resource = "*"
       }
-      ],
-      var.enable_comprehensive_permissions ? [
-        {
-          Effect = "Allow"
-          Action = [
-            "batch:DescribeJobQueues",
-            "batch:DescribeJobs",
-            "batch:ListJobs",
-            "ec2:GetEbsEncryptionByDefault",
-            "ec2:GetLaunchTemplateData",
-            "ec2:GetSnapshotBlockPublicAccessState",
-            "eks:DescribeAddon",
-            "eks:DescribeAddonConfiguration",
-            "eks:DescribeIdentityProviderConfig",
-            "eks:DescribeNodegroup",
-            "eks:DescribePodIdentityAssociation",
-            "lambda:GetFunction",
-            "lambda:GetFunctionUrlConfig",
-            "scheduler:GetSchedule",
-            "scheduler:ListSchedules"
-          ]
-          Resource = "*"
-        }
-      ] : []
-    )
+    ]
   })
 }
 
