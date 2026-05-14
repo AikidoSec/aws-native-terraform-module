@@ -8,7 +8,7 @@ on:
 jobs:
   release:
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: open-source-releaser
     permissions:
       contents: write
 
@@ -115,7 +115,7 @@ jobs:
 
   validate-release:
     name: Validate Release
-    runs-on: ubuntu-latest
+    runs-on: open-source-releaser
     needs: release
 
     steps:

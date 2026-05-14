@@ -14,7 +14,7 @@ permissions:
 jobs:
   validate:
     name: Validate Terraform
-    runs-on: ubuntu-latest
+    runs-on: open-source-releaser
 
     steps:
       - name: Checkout code
@@ -76,7 +76,7 @@ jobs:
 
   tflint:
     name: TFLint
-    runs-on: ubuntu-latest
+    runs-on: open-source-releaser
 
     steps:
       - name: Checkout code
