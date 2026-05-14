@@ -3,6 +3,7 @@ variable "external_id" {
   type        = string
 }
 
+# tflint-ignore: terraform_unused_declarations
 variable "enable_comprehensive_permissions" {
   description = "Deprecated: this variable has no effect. Comprehensive permissions are now always enabled."
   type        = bool
