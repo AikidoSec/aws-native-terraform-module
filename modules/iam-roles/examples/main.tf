@@ -25,6 +25,12 @@ module "aikido_iam" {
   # Optional: Enable additional scanning capabilities
   enable_ecr_scanning = var.enable_ecr_scanning
   enable_ebs_scanning = var.enable_ebs_scanning
+
+  # Optional: Attach additional policies to restrict or extend role permissions.
+  # Example: limit ECR scanning to specific regions (see https://help.aikido.dev/cloud-scanning/connect-your-cloud/aws/connect-aws-account-to-aikido/control-which-aws-regions-are-scanned)
+  # ecr_additional_policy_arns = [aws_iam_policy.ecr_region_restriction.arn]
+  # cspm_additional_policy_arns = []
+  # ebs_additional_policy_arns  = []
 }
 
 # Outputs to verify the created resources

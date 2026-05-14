@@ -15,6 +15,9 @@ module "iam_roles" {
   cspm_audit_actions               = var.cspm_audit_actions
   ecr_role_name                    = var.ecr_role_name
   ebs_role_name                    = var.ebs_role_name
+  cspm_additional_policy_arns      = var.cspm_additional_policy_arns
+  ecr_additional_policy_arns       = var.ecr_additional_policy_arns
+  ebs_additional_policy_arns       = var.ebs_additional_policy_arns
 }
 
 # State migration blocks for v1.0.0 -> v2.0.0 upgrade
