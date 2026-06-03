@@ -57,6 +57,24 @@ module "aikido_iam" {
 }
 ```
 
+### US Instance
+
+If your Aikido account is on the **US instance** (`app.us.aikido.dev`), set `aikido_region = "us"`:
+
+```hcl
+module "aikido_iam" {
+  source = "git::https://github.com/AikidoSec/aws-native-terraform-module.git//modules/iam-roles?ref=main"
+
+  external_id         = "your-external-id-from-aikido"
+  enable_ecr_scanning = true
+  enable_ebs_scanning = true
+
+  aikido_region = "us"
+}
+```
+
+`aikido_region` accepts `"eu"` (default), `"us"`, `"me"`, or `"au"`, corresponding to the Aikido instance your account is on.
+
 ## Requirements
 
 | Name      | Version |
@@ -66,17 +84,15 @@ module "aikido_iam" {
 
 ## Inputs
 
-| Name                         | Description                                     | Type     | Default                                                                                      | Required |
-| ---------------------------- | ----------------------------------------------- | -------- | -------------------------------------------------------------------------------------------- | :------: |
-| external_id                  | External ID for Aikido Security role assumption | `string` | n/a                                                                                          |   yes    |
-| enable_ecr_scanning          | Enable ECR scanning                             | `bool`   | `false`                                                                                      |    no    |
-| enable_ebs_scanning          | Enable EBS scanning                             | `bool`   | `false`                                                                                      |    no    |
-| aikido_cspm_scanner_role_arn | ARN of the Aikido cloud scanner role            | `string` | `"arn:aws:iam::881830977366:role/service-role/lambda-aws-cloud-findings-role-uox26vzd"`      |    no    |
-| aikido_ecr_scanner_role_arn  | ARN of the Aikido ECR scanner role              | `string` | `"arn:aws:iam::881830977366:role/service-role/lambda-container-image-scanner-role-pb0qotst"` |    no    |
-| aikido_ebs_scanner_role_arn  | ARN of the Aikido EBS scanner role              | `string` | `"arn:aws:iam::881830977366:role/aws-ebs-scanner-role"`                                      |    no    |
-| cspm_role_name               | Name of the CSPM IAM role                       | `string` | `"AikidoSecurityReadonlyRole"`                                                               |    no    |
-| ecr_role_name                | Name of the ECR scanning IAM role               | `string` | `"AikidoSecurityEcrScanningRole"`                                                            |    no    |
-| ebs_role_name                | Name of the EBS scanning IAM role               | `string` | `"AikidoSecurityEbsScanningRole"`                                                            |    no    |
+| Name                         | Description                                     | Type     | Default  | Required |
+| ---------------------------- | ----------------------------------------------- | -------- | -------- | :------: |
+| external_id                  | External ID for Aikido Security role assumption | `string` | n/a      |   yes    |
+| aikido_region                | Aikido instance region: `"eu"` (default), `"us"`, `"me"`, `"au"` | `string` | `"eu"` |    no    |
+| enable_ecr_scanning          | Enable ECR scanning                             | `bool`   | `false`  |    no    |
+| enable_ebs_scanning          | Enable EBS scanning                             | `bool`   | `false`  |    no    |
+| cspm_role_name               | Name of the CSPM IAM role                       | `string` | `"AikidoSecurityReadonlyRole"` | no |
+| ecr_role_name                | Name of the ECR scanning IAM role               | `string` | `"AikidoSecurityEcrScanningRole"` | no |
+| ebs_role_name                | Name of the EBS scanning IAM role               | `string` | `"AikidoSecurityEbsScanningRole"` | no |
 
 ## Outputs
 

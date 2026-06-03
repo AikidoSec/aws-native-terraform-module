@@ -2,6 +2,35 @@
 # This module creates IAM roles and policies for Aikido Security integration
 # without requiring AWS Organizations or StackSets
 
+locals {
+  scanner_role_arns = {
+    eu = {
+      cspm = "arn:aws:iam::881830977366:role/service-role/lambda-aws-cloud-findings-role-uox26vzd"
+      ecr  = "arn:aws:iam::881830977366:role/service-role/lambda-container-image-scanner-role-pb0qotst"
+      ebs  = "arn:aws:iam::881830977366:role/aws-ebs-scanner-role"
+    }
+    us = {
+      cspm = "arn:aws:iam::881830977366:role/lambda-aws-cloud-findings-us-east-1"
+      ecr  = "arn:aws:iam::881830977366:role/lambda-container-image-scanner-us-east-1"
+      ebs  = "arn:aws:iam::881830977366:role/lambda-aws-ebs-scanner-us-east-1"
+    }
+    me = {
+      cspm = "arn:aws:iam::881830977366:role/lambda-aws-cloud-findings-me-central-1"
+      ecr  = "arn:aws:iam::881830977366:role/lambda-container-image-scanner-me-central-1"
+      ebs  = "arn:aws:iam::881830977366:role/lambda-aws-ebs-scanner-me-central-1"
+    }
+    au = {
+      cspm = "arn:aws:iam::881830977366:role/lambda-aws-cloud-findings-ap-southeast-2"
+      ecr  = "arn:aws:iam::881830977366:role/lambda-container-image-scanner-ap-southeast-2"
+      ebs  = "arn:aws:iam::881830977366:role/lambda-aws-ebs-scanner-ap-southeast-2"
+    }
+  }
+
+  cspm_scanner_role_arn = local.scanner_role_arns[var.aikido_region].cspm
+  ecr_scanner_role_arn  = local.scanner_role_arns[var.aikido_region].ecr
+  ebs_scanner_role_arn  = local.scanner_role_arns[var.aikido_region].ebs
+}
+
 # CSPM Resources
 resource "aws_iam_policy" "aikido_security_audit" {
   name        = "AikidoSecurityAuditPolicy"
@@ -11,7 +40,7 @@ resource "aws_iam_policy" "aikido_security_audit" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
+        Effect   = "Allow"
         Action   = var.cspm_audit_actions
         Resource = "*"
       },
@@ -33,7 +62,7 @@ resource "aws_iam_role" "aikido_security_cspm" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = var.aikido_cspm_scanner_role_arn
+          AWS = local.cspm_scanner_role_arn
         }
         Action = "sts:AssumeRole"
         Condition = {
@@ -93,7 +122,7 @@ resource "aws_iam_role" "aikido_security_ecr_scan" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = var.aikido_ecr_scanner_role_arn
+          AWS = local.ecr_scanner_role_arn
         }
         Action = "sts:AssumeRole"
         Condition = {
@@ -162,7 +191,7 @@ resource "aws_iam_role" "aikido_security_ebs_scan" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = var.aikido_ebs_scanner_role_arn
+          AWS = local.ebs_scanner_role_arn
         }
         Action = "sts:AssumeRole"
         Condition = {
