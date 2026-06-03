@@ -1,5 +1,14 @@
 # Aikido Security Integration for AWS Organizations
 
+locals {
+  stackset_template_urls = {
+    eu = "https://aikido-cspm-templates.s3.eu-west-1.amazonaws.com/minimal-policy-member-account.yaml"
+    us = "https://aikido-cspm-templates.s3.eu-west-1.amazonaws.com/minimal-policy-member-account-us-east-1.yaml"
+    me = "https://aikido-cspm-templates.s3.eu-west-1.amazonaws.com/minimal-policy-member-account-me-central-1.yaml"
+    au = "https://aikido-cspm-templates.s3.eu-west-1.amazonaws.com/minimal-policy-member-account-ap-southeast-2.yaml"
+  }
+}
+
 # IAM roles for management account
 module "iam_roles" {
   source = "../modules/iam-roles"
@@ -8,9 +17,7 @@ module "iam_roles" {
   enable_comprehensive_permissions = var.enable_comprehensive_permissions
   enable_ecr_scanning              = var.enable_ecr_scanning
   enable_ebs_scanning              = var.enable_ebs_scanning
-  aikido_cspm_scanner_role_arn     = var.aikido_cspm_scanner_role_arn
-  aikido_ecr_scanner_role_arn      = var.aikido_ecr_scanner_role_arn
-  aikido_ebs_scanner_role_arn      = var.aikido_ebs_scanner_role_arn
+  aikido_region                    = var.aikido_region
   cspm_role_name                   = var.cspm_role_name
   cspm_audit_actions               = var.cspm_audit_actions
   ecr_role_name                    = var.ecr_role_name
@@ -78,7 +85,7 @@ moved {
 resource "aws_cloudformation_stack_set" "member_accounts" {
   name             = "aikido-security-cspm-stackset"
   description      = "StackSet for setting up Aikido integration in the member accounts"
-  template_url     = "https://aikido-production-staticfiles-public.s3.eu-west-1.amazonaws.com/minimal-policy-member-account.yaml"
+  template_url     = local.stackset_template_urls[var.aikido_region]
   permission_model = "SERVICE_MANAGED"
   capabilities     = ["CAPABILITY_NAMED_IAM"]
 

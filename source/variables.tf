@@ -32,22 +32,15 @@ variable "enable_ebs_scanning" {
   default     = false
 }
 
-variable "aikido_cspm_scanner_role_arn" {
-  description = "ARN of the Aikido cloud scanner role"
+variable "aikido_region" {
+  description = "Aikido instance region. Controls the scanner role ARNs and the CloudFormation StackSet template used for member accounts. Valid values: \"eu\" (default, app.aikido.dev), \"us\" (app.us.aikido.dev), \"me\" (app.me.aikido.dev), \"au\" (app.au.aikido.dev)."
   type        = string
-  default     = "arn:aws:iam::881830977366:role/service-role/lambda-aws-cloud-findings-role-uox26vzd"
-}
+  default     = "eu"
 
-variable "aikido_ecr_scanner_role_arn" {
-  description = "ARN of the Aikido ECR scanner role"
-  type        = string
-  default     = "arn:aws:iam::881830977366:role/service-role/lambda-container-image-scanner-role-pb0qotst"
-}
-
-variable "aikido_ebs_scanner_role_arn" {
-  description = "ARN of the Aikido EBS scanner role"
-  type        = string
-  default     = "arn:aws:iam::881830977366:role/aws-ebs-scanner-role"
+  validation {
+    condition     = contains(["eu", "us", "me", "au"], var.aikido_region)
+    error_message = "aikido_region must be one of: \"eu\", \"us\", \"me\", \"au\"."
+  }
 }
 
 variable "cspm_role_name" {

@@ -46,13 +46,16 @@ See the [IAM Roles Module Documentation](modules/iam-roles/README.md) for detail
 
 ```hcl
 module "aikido_security" {
-  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=v2.0.0"
+  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=main"
 
   external_id               = "your-aikido-external-id"
   organizational_unit_ids   = ["r-abcd"]  # Your organization root or specific OUs
   excluded_account_ids      = []          # Optional: AWS accounts to exclude
   enable_ecr_scanning       = true
   enable_ebs_scanning       = true
+
+  # Set to "us", "me", or "au" if your Aikido account is on a non-EU instance
+  # aikido_region = "eu"
 }
 ```
 
@@ -64,13 +67,16 @@ See the [Deployment Guide](DEPLOYMENT.md) for detailed installation instructions
 
 ```hcl
 module "aikido_security" {
-  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=v2.0.0"
+  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=main"
 
   external_id             = "your-aikido-external-id"
   organizational_unit_ids = ["r-xxxx"]
   excluded_account_ids    = []
   enable_ecr_scanning     = true
   enable_ebs_scanning     = true
+
+  # Set to "us", "me", or "au" if your Aikido account is on a non-EU instance
+  # aikido_region = "eu"
 }
 ```
 
@@ -85,6 +91,7 @@ See the [examples](./examples/) directory for complete usage examples.
 | external_id                      | External ID for Aikido Security role assumption (obtain from Aikido)                                                                                         | `string`       | n/a     | yes      |
 | organizational_unit_ids          | The root ID (e.g., r-abcd) or specific OUs (e.g., ou-abcd-1234)                                                                                              | `list(string)` | n/a     | yes      |
 | excluded_account_ids             | AWS accounts that will not be connected to Aikido                                                                                                            | `list(string)` | n/a     | yes      |
+| aikido_region                    | Aikido instance region: `"eu"` (default, `app.aikido.dev`), `"us"` (`app.us.aikido.dev`), `"me"` (`app.me.aikido.dev`), `"au"` (`app.au.aikido.dev`) | `string` | `"eu"` | no       |
 | enable_ecr_scanning              | Enable ECR container scanning                                                                                                                                | `bool`         | `false` | no       |
 | enable_ebs_scanning              | Enable EBS volume scanning                                                                                                                                   | `bool`         | `false` | no       |
 | cspm_role_name                   | Name of the CSPM IAM role                                                                                                                                    | `string`       | `"AikidoSecurityReadonlyRole"` | no       |
@@ -98,6 +105,30 @@ See the [examples](./examples/) directory for complete usage examples.
 | cspm_role_arn | ARN of the Aikido CSPM role                      |
 | ecr_role_arn  | ARN of the Aikido ECR scanning role (if enabled) |
 | ebs_role_arn  | ARN of the Aikido EBS scanning role (if enabled) |
+
+## Non-EU Instance Configuration
+
+If your Aikido account is on a non-EU instance, set `aikido_region` accordingly. This automatically selects the correct scanner role ARNs and CloudFormation StackSet template for member accounts:
+
+| Value | Instance URL |
+| ----- | ------------ |
+| `"eu"` (default) | `app.aikido.dev` |
+| `"us"` | `app.us.aikido.dev` |
+| `"me"` | `app.me.aikido.dev` |
+| `"au"` | `app.au.aikido.dev` |
+
+```hcl
+module "aikido_security" {
+  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=main"
+
+  external_id             = "your-aikido-external-id"
+  organizational_unit_ids = ["r-xxxx"]
+  enable_ecr_scanning     = true
+  enable_ebs_scanning     = true
+
+  aikido_region = "us" # or "me", "au"
+}
+```
 
 ## Upgrading from v1.0.0 to v2.0.0
 
