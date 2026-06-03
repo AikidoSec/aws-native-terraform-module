@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-06-03
+
+### Added
+
+- Support for the different Aikido regions
+- Incorporate the comprehensive permissions
+
 ## [2.0.1] - 2025-12-14
 
 ### Fixed
