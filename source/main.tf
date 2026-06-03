@@ -12,6 +12,7 @@ module "iam_roles" {
   aikido_ecr_scanner_role_arn      = var.aikido_ecr_scanner_role_arn
   aikido_ebs_scanner_role_arn      = var.aikido_ebs_scanner_role_arn
   cspm_role_name                   = var.cspm_role_name
+  cspm_audit_actions               = var.cspm_audit_actions
   ecr_role_name                    = var.ecr_role_name
   ebs_role_name                    = var.ebs_role_name
 }

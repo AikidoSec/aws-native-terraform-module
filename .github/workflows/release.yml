@@ -5,17 +5,16 @@ on:
     tags:
       - 'v*.*.*'
 
-permissions:
-  contents: write
-
 jobs:
   release:
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: open-source-releaser
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -108,19 +107,20 @@ jobs:
             - [Contributing](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CONTRIBUTING.md)
             - [Security Policy](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/SECURITY.md)
           draft: false
-          prerelease: ${{ contains(github.ref_name, '-rc') || contains(github.ref_name, '-beta') || contains(github.ref_name, '-alpha') }}
+          prerelease: ${{ contains(github.ref_name, '-rc') || contains(github.ref_name,
+            '-beta') || contains(github.ref_name, '-alpha') }}
           generate_release_notes: true
           files: |
             aikido-aws-terraform-module-${{ steps.version.outputs.VERSION }}.zip
 
   validate-release:
     name: Validate Release
-    runs-on: ubuntu-latest
+    runs-on: open-source-releaser
     needs: release
 
     steps:
       - name: Checkout at tag
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.ref }}
 
