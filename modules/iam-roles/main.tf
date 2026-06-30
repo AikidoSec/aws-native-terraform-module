@@ -95,18 +95,8 @@ resource "aws_iam_policy" "aikido_security_ecr_scan" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = [
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:BatchGetImage",
-          "ecr:DescribeImages",
-          "ecr:DescribeRegistry",
-          "ecr:DescribeRepositories",
-          "ecr:GetAuthorizationToken",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:ListImages",
-          "ecr:ListTagsForResource"
-        ]
+        Effect   = "Allow"
+        Action   = var.ecr_scan_actions
         Resource = "*"
       }
     ]
@@ -152,25 +142,13 @@ resource "aws_iam_policy" "aikido_security_ebs_scan" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = [
-          "ec2:DescribeInstances",
-          "ec2:DescribeVolumes",
-          "ec2:DescribeVolumeStatus",
-          "ec2:DescribeSnapshots",
-          "ec2:CreateSnapshot",
-          "ec2:CreateTags",
-          "ebs:ListSnapshotBlocks",
-          "ebs:GetSnapshotBlock",
-          "kms:DescribeKey",
-          "kms:Decrypt",
-          "kms:GenerateDataKey"
-        ]
+        Effect   = "Allow"
+        Action   = var.ebs_scan_actions
         Resource = "*"
       },
       {
         Effect   = "Allow"
-        Action   = ["ec2:DeleteSnapshot"]
+        Action   = var.ebs_snapshot_cleanup_actions
         Resource = "*"
         Condition = {
           StringEquals = {

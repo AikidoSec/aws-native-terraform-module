@@ -90,8 +90,12 @@ module "aikido_iam" {
 | aikido_region                | Aikido instance region: `"eu"` (default), `"us"`, `"me"`, `"au"` | `string` | `"eu"` |    no    |
 | enable_ecr_scanning          | Enable ECR scanning                             | `bool`   | `false`  |    no    |
 | enable_ebs_scanning          | Enable EBS scanning                             | `bool`   | `false`  |    no    |
+| cspm_audit_actions           | List of IAM actions to allow in the Aikido Security Audit Policy | `set(string)` | See defaults in `variables.tf` | no |
 | cspm_role_name               | Name of the CSPM IAM role                       | `string` | `"AikidoSecurityReadonlyRole"` | no |
+| ecr_scan_actions             | List of IAM actions to allow in the Aikido Security ECR Scan Policy | `set(string)` | See defaults in `variables.tf` | no |
 | ecr_role_name                | Name of the ECR scanning IAM role               | `string` | `"AikidoSecurityEcrScanningRole"` | no |
+| ebs_scan_actions             | List of IAM actions to allow in the primary Aikido Security EBS Scan Policy statement | `set(string)` | See defaults in `variables.tf` | no |
+| ebs_snapshot_cleanup_actions | List of IAM actions to allow in the conditioned Aikido Security EBS snapshot cleanup statement | `set(string)` | See defaults in `variables.tf` | no |
 | ebs_role_name                | Name of the EBS scanning IAM role               | `string` | `"AikidoSecurityEbsScanningRole"` | no |
 
 ## Outputs

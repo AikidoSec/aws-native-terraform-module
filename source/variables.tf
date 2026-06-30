@@ -51,7 +51,7 @@ variable "cspm_role_name" {
 
 variable "cspm_audit_actions" {
   description = "IAM actions to allow in the Aikido Security Audit Policy"
-  type        = list(string)
+  type        = set(string)
   default = [
     "backup:GetBackupPlan",
     "backup:ListBackupPlans",
@@ -76,10 +76,52 @@ variable "cspm_audit_actions" {
   ]
 }
 
+variable "ecr_scan_actions" {
+  description = "IAM actions to allow in the Aikido Security ECR Scan Policy"
+  type        = set(string)
+  default = [
+    "ecr:BatchCheckLayerAvailability",
+    "ecr:BatchGetImage",
+    "ecr:DescribeImages",
+    "ecr:DescribeRegistry",
+    "ecr:DescribeRepositories",
+    "ecr:GetAuthorizationToken",
+    "ecr:GetDownloadUrlForLayer",
+    "ecr:ListImages",
+    "ecr:ListTagsForResource",
+  ]
+}
+
 variable "ecr_role_name" {
   description = "Name of the ECR scanning IAM role"
   type        = string
   default     = "AikidoSecurityEcrScanningRole"
+}
+
+variable "ebs_scan_actions" {
+  description = "IAM actions to allow in the primary Aikido Security EBS Scan Policy statement"
+  type        = set(string)
+  default = [
+    "ec2:DescribeInstances",
+    "ec2:DescribeVolumes",
+    "ec2:DescribeVolumeStatus",
+    "ec2:DescribeSnapshots",
+    "ec2:CreateSnapshot",
+    "ec2:CreateTags",
+    "ebs:ListSnapshotBlocks",
+    "ebs:GetSnapshotBlock",
+    "kms:DescribeKey",
+    "kms:Decrypt",
+    "kms:GenerateDataKey",
+  ]
+}
+
+variable "ebs_snapshot_cleanup_actions" {
+  description = "IAM actions to allow in the conditioned Aikido Security EBS snapshot cleanup statement"
+  type        = set(string)
+  default = [
+    "ec2:DeleteSnapshot",
+  ]
 }
 
 variable "ebs_role_name" {
