@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0] - 2026-06-30
+
+### Added
+
+- Configurable `ecr_scan_actions`, `ebs_scan_actions`, and `ebs_snapshot_cleanup_actions` inputs for both the root module and the `modules/iam-roles` submodule
+
+### Changed
+
+- Updated IAM action list inputs to use `set(string)` so ordering-only changes and duplicates do not cause avoidable diffs
+
+### Fixed
+
+- Added `ecr:ListTagsForResource` to the ECR scanning IAM policy in the Terraform module to match the current Aikido AWS templates
+
 ## [3.0.0] - 2026-06-03
 
 ### Added
