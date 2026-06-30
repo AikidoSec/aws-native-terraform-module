@@ -20,7 +20,10 @@ module "iam_roles" {
   aikido_region                    = var.aikido_region
   cspm_role_name                   = var.cspm_role_name
   cspm_audit_actions               = var.cspm_audit_actions
+  ecr_scan_actions                 = var.ecr_scan_actions
   ecr_role_name                    = var.ecr_role_name
+  ebs_scan_actions                 = var.ebs_scan_actions
+  ebs_snapshot_cleanup_actions     = var.ebs_snapshot_cleanup_actions
   ebs_role_name                    = var.ebs_role_name
 }
 
