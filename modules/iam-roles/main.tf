@@ -104,7 +104,8 @@ resource "aws_iam_policy" "aikido_security_ecr_scan" {
           "ecr:DescribeRepositories",
           "ecr:GetAuthorizationToken",
           "ecr:GetDownloadUrlForLayer",
-          "ecr:ListImages"
+          "ecr:ListImages",
+          "ecr:ListTagsForResource"
         ]
         Resource = "*"
       }
