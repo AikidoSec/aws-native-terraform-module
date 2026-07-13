@@ -90,6 +90,7 @@ resource "aws_cloudformation_stack_set" "member_accounts" {
   description      = "StackSet for setting up Aikido integration in the member accounts"
   template_url     = local.stackset_template_urls[var.aikido_region]
   permission_model = "SERVICE_MANAGED"
+  call_as          = var.stackset_call_as
   capabilities     = ["CAPABILITY_NAMED_IAM"]
 
   parameters = {
@@ -120,6 +121,7 @@ resource "aws_cloudformation_stack_set" "member_accounts" {
 # Deploy stack set instances to organizational units
 resource "aws_cloudformation_stack_set_instance" "member_accounts" {
   stack_set_name = aws_cloudformation_stack_set.member_accounts.name
+  call_as        = var.stackset_call_as
 
   deployment_targets {
     organizational_unit_ids = var.organizational_unit_ids
