@@ -91,6 +91,7 @@ See the [examples](./examples/) directory for complete usage examples.
 | external_id                      | External ID for Aikido Security role assumption (obtain from Aikido)                                                                                         | `string`       | n/a     | yes      |
 | organizational_unit_ids          | The root ID (e.g., r-abcd) or specific OUs (e.g., ou-abcd-1234)                                                                                              | `list(string)` | n/a     | yes      |
 | excluded_account_ids             | AWS accounts that will not be connected to Aikido                                                                                                            | `list(string)` | n/a     | yes      |
+| stackset_call_as                 | Whether CloudFormation StackSet operations are called as the management account (`SELF`) or a registered delegated administrator (`DELEGATED_ADMIN`)         | `string`       | `"SELF"` | no       |
 | aikido_region                    | Aikido instance region: `"eu"` (default, `app.aikido.dev`), `"us"` (`app.us.aikido.dev`), `"me"` (`app.me.aikido.dev`), `"au"` (`app.au.aikido.dev`) | `string` | `"eu"` | no       |
 | enable_ecr_scanning              | Enable ECR container scanning                                                                                                                                | `bool`         | `false` | no       |
 | enable_ebs_scanning              | Enable EBS volume scanning                                                                                                                                   | `bool`         | `false` | no       |
@@ -133,6 +134,22 @@ module "aikido_security" {
   aikido_region = "us" # or "me", "au"
 }
 ```
+
+## Delegated Administrator StackSets
+
+If you run this module from a registered CloudFormation StackSets delegated administrator account instead of the AWS Organizations management account, set:
+
+```hcl
+module "aikido_security" {
+  source = "github.com/AikidoSec/aws-native-terraform-module//source?ref=main"
+
+  external_id             = "your-aikido-external-id"
+  organizational_unit_ids = ["r-xxxx"]
+  stackset_call_as        = "DELEGATED_ADMIN"
+}
+```
+
+Leave `stackset_call_as = "SELF"` when applying from the management account.
 
 ## Upgrading from v1.0.0 to v2.0.0
 

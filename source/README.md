@@ -42,6 +42,7 @@ README.md updated successfully
 | <a name="input_excluded_account_ids"></a> [excluded\_account\_ids](#input\_excluded\_account\_ids) | The AWS accounts that will not be connected to Aikido | `list(string)` | `[]` | no |
 | <a name="input_external_id"></a> [external\_id](#input\_external\_id) | External ID for Aikido Security role assumption | `string` | n/a | yes |
 | <a name="input_organizational_unit_ids"></a> [organizational\_unit\_ids](#input\_organizational\_unit\_ids) | The root ID (e.g., r-abcd) or specific OUs (e.g., ou-abcd-1234, ou-abcd-5678) | `list(string)` | n/a | yes |
+| <a name="input_stackset_call_as"></a> [stackset\_call\_as](#input\_stackset\_call\_as) | Specifies whether StackSet operations are called as the management account (`SELF`) or a registered delegated administrator (`DELEGATED_ADMIN`). | `string` | `"SELF"` | no |
 
 ## Outputs
 

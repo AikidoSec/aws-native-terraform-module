@@ -14,6 +14,17 @@ variable "excluded_account_ids" {
   default     = []
 }
 
+variable "stackset_call_as" {
+  description = "Specifies whether StackSet operations are called as the management account (`SELF`) or a registered delegated administrator (`DELEGATED_ADMIN`)."
+  type        = string
+  default     = "SELF"
+
+  validation {
+    condition     = contains(["SELF", "DELEGATED_ADMIN"], var.stackset_call_as)
+    error_message = "stackset_call_as must be one of: \"SELF\", \"DELEGATED_ADMIN\"."
+  }
+}
+
 variable "enable_comprehensive_permissions" {
   description = "Deprecated: this variable has no effect. Comprehensive permissions are now always enabled."
   type        = bool

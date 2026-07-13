@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.0] - 2026-07-13
+
+### Added
+
+- Root module input `stackset_call_as` to support running CloudFormation StackSet operations as a registered delegated administrator
+
 ## [3.1.0] - 2026-06-30
 
 ### Added
