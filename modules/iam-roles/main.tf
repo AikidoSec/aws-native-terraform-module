@@ -188,3 +188,21 @@ resource "aws_iam_role_policy_attachment" "aikido_security_ebs_scan" {
   role       = aws_iam_role.aikido_security_ebs_scan[0].name
   policy_arn = aws_iam_policy.aikido_security_ebs_scan[0].arn
 }
+
+resource "aws_iam_role_policy_attachment" "cspm_additional" {
+  for_each   = toset(var.cspm_additional_policy_arns)
+  role       = aws_iam_role.aikido_security_cspm.name
+  policy_arn = each.value
+}
+
+resource "aws_iam_role_policy_attachment" "ecr_additional" {
+  for_each   = var.enable_ecr_scanning ? toset(var.ecr_additional_policy_arns) : toset([])
+  role       = var.ecr_role_name
+  policy_arn = each.value
+}
+
+resource "aws_iam_role_policy_attachment" "ebs_additional" {
+  for_each   = var.enable_ebs_scanning ? toset(var.ebs_additional_policy_arns) : toset([])
+  role       = var.ebs_role_name
+  policy_arn = each.value
+}

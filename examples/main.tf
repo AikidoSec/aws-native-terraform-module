@@ -19,4 +19,10 @@ module "aikido_security" {
 
   # Enable EBS volume scanning
   enable_ebs_scanning = true
+
+  # Optional: Attach additional policies to restrict or extend role permissions.
+  # Example: limit ECR scanning to specific regions (see https://help.aikido.dev/cloud-scanning/connect-your-cloud/aws/connect-aws-account-to-aikido/control-which-aws-regions-are-scanned)
+  # ecr_additional_policy_arns = [aws_iam_policy.ecr_region_restriction.arn]
+  # cspm_additional_policy_arns = []
+  # ebs_additional_policy_arns  = []
 }

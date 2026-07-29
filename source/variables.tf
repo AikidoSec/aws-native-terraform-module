@@ -140,3 +140,21 @@ variable "ebs_role_name" {
   type        = string
   default     = "AikidoSecurityEbsScanningRole"
 }
+
+variable "cspm_additional_policy_arns" {
+  description = "ARNs of additional IAM policies to attach to the CSPM role. Use this to further restrict or extend permissions (e.g., deny specific regions)."
+  type        = list(string)
+  default     = []
+}
+
+variable "ecr_additional_policy_arns" {
+  description = "ARNs of additional IAM policies to attach to the ECR scanning role. Use this to further restrict or extend permissions (e.g., deny specific regions). Requires enable_ecr_scanning = true."
+  type        = list(string)
+  default     = []
+}
+
+variable "ebs_additional_policy_arns" {
+  description = "ARNs of additional IAM policies to attach to the EBS scanning role. Use this to further restrict or extend permissions (e.g., deny specific regions). Requires enable_ebs_scanning = true."
+  type        = list(string)
+  default     = []
+}
